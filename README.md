@@ -1,8 +1,9 @@
-== README
+# Slam API
 
-install postgresql
+[![Build Status](https://travis-ci.org/ericmeyer/SlamAPI.svg)](https://travis-ci.org/ericmeyer/SlamAPI)
 
-`rake db:create db:migrate`
+## Setup
 
-To Start:
-`rails s`
+1. install postgresql
+2. `rake db:create db:migrate`
+3. `rails s` to run the server
