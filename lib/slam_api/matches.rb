@@ -2,27 +2,27 @@ module SlamAPI
   class Matches
     class << self
       def all
-        matches
-      end
-
-      def pending_matches
-        matches.select { |match| match.completed? == false }
+        matches.values
       end
 
       def matches
-        @matches ||= []
+        @matches ||= {}
       end
 
       def add(match)
-        matches << match
+        matches[match.id] = match
+      end
+
+      def destroy_match(id)
+        matches.delete(id)
       end
 
       def destroy_all
-        @matches = []
+        @matches = {}
       end
 
       def find_by_id(id)
-        matches.select {|match| match.id == id}.first
+        matches[id]
       end  
     end
 
@@ -32,21 +32,12 @@ module SlamAPI
       @id = SecureRandom.uuid 
       @player_one = attributes[:player_one]
       @player_two = attributes[:player_two]
-      @completed = false
     end
 
     def create
       if (valid?)
         Matches.add(self)
       end
-    end
-
-    def completed?
-      completed
-    end
-
-    def complete_game
-      @completed = true
     end
 
     def valid?

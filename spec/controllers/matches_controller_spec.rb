@@ -27,8 +27,8 @@ RSpec.describe MatchesController, type: :controller do
     end
   end
 
-  describe "pending_matches" do
-    it "returns available pending game" do
+  describe "destroy" do
+    it "destroys a match" do
       match = SlamAPI::Matches.new(
         :player_one => "taka",
         :player_two => "eric"
@@ -36,12 +36,12 @@ RSpec.describe MatchesController, type: :controller do
 
       match.create
 
-      get :pending_matches, format: :json
+      delete :destroy, { :id => match.id }
 
-      json_response = JSON.parse(response.body)
-      expect(json_response).to eq([{"playerOne" => "taka",
-                                   "playerTwo" => "eric",
-                                   "id" => match.id}])
+      expect(response.code).to eq("200")
+
+      matches = SlamAPI::Matches.all
+      expect(matches).to be_empty
     end
   end
 

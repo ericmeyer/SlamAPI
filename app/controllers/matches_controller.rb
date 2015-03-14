@@ -4,15 +4,15 @@ class MatchesController < ApplicationController
     render 'index.json.jbuilder'
   end
 
-  def pending_matches
-    @matches = SlamAPI::Matches.pending_matches
-    render 'pending_matches.json.jbuilder'
-  end
-
   def create
     match = SlamAPI::Matches.new(parsed_params)
     match.create
     render json: nil, status: 201
+  end
+
+  def destroy
+    SlamAPI::Matches.destroy_match(parsed_params[:id])
+    render json: nil, status: 200
   end
 
   def parsed_params
