@@ -29,42 +29,15 @@ RSpec.describe SlamAPI::Matches do
     end
   end
 
-  context "#completed?" do
-    it "a new game should not be completed" do
+  context "#delete_match" do
+    it "deletes a match" do
       match = SlamAPI::Matches.new(valid_attributes)
       match.create
-
-      expect(SlamAPI::Matches.find_by_id(match.id).completed?).to eq(false)
+      SlamAPI::Matches.delete_match(match.id)
+      
+      expect(SlamAPI::Matches.all).to be_empty
     end
   end
-
-  context "#complete_game" do
-    it "moves a game to completed" do
-      match = SlamAPI::Matches.new(valid_attributes)
-      match.create
-
-      match.complete_game
-
-      expect(SlamAPI::Matches.find_by_id(match.id).completed?).to eq(true)
-    end
-  end
-
-  context ".pending_matches" do
-    it "doesnt have any matches" do
-      match = SlamAPI::Matches.new(valid_attributes)
-      match.create
-
-      match.complete_game
-
-      expect(SlamAPI::Matches.pending_matches).to be_empty
-    end
-
-    it "returns all incomplete matches" do
-      match = SlamAPI::Matches.new(valid_attributes)
-      match.create
-      expect(SlamAPI::Matches.pending_matches).to eq([match])
-    end  
-  end  
 
   context "#valid?" do
     it "not valid with only one player" do

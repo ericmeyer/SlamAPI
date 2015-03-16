@@ -4,11 +4,6 @@ class MatchesController < ApplicationController
     render 'index.json.jbuilder'
   end
 
-  def pending_matches
-    @matches = SlamAPI::Matches.pending_matches
-    render 'pending_matches.json.jbuilder'
-  end
-
   def create
     match = SlamAPI::Matches.new(parsed_params)
     match.create

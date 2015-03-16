@@ -27,24 +27,6 @@ RSpec.describe MatchesController, type: :controller do
     end
   end
 
-  describe "pending_matches" do
-    it "returns available pending game" do
-      match = SlamAPI::Matches.new(
-        :player_one => "taka",
-        :player_two => "eric"
-      )
-
-      match.create
-
-      get :pending_matches, format: :json
-
-      json_response = JSON.parse(response.body)
-      expect(json_response).to eq([{"playerOne" => "taka",
-                                   "playerTwo" => "eric",
-                                   "id" => match.id}])
-    end
-  end
-
   describe "create" do
     it "creates a match" do
       json = {:playerOne => "taka",
