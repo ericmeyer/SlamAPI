@@ -29,11 +29,11 @@ RSpec.describe SlamAPI::Matches do
     end
   end
 
-  context "#delete_match" do
+  context "#destroy_match" do
     it "deletes a match" do
       match = SlamAPI::Matches.new(valid_attributes)
       match.create
-      SlamAPI::Matches.delete_match(match.id)
+      SlamAPI::Matches.destroy_match(match.id)
       
       expect(SlamAPI::Matches.all).to be_empty
     end

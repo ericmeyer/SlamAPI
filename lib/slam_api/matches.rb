@@ -13,7 +13,7 @@ module SlamAPI
         matches[match.id] = match
       end
 
-      def delete_match(id)
+      def destroy_match(id)
         matches.delete(id)
       end
 

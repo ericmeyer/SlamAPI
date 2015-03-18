@@ -11,7 +11,7 @@ class MatchesController < ApplicationController
   end
 
   def destroy
-    SlamAPI::Matches.delete_match(parsed_params[:id])
+    SlamAPI::Matches.destroy_match(parsed_params[:id])
     render json: nil, status: 200
   end
 
