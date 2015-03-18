@@ -27,6 +27,24 @@ RSpec.describe MatchesController, type: :controller do
     end
   end
 
+  describe "destroy" do
+    it "destroys a match" do
+      match = SlamAPI::Matches.new(
+        :player_one => "taka",
+        :player_two => "eric"
+      )
+
+      match.create
+
+      delete :destroy, { :id => match.id }
+
+      expect(response.code).to eq("200")
+
+      matches = SlamAPI::Matches.all
+      expect(matches).to be_empty
+    end
+  end
+
   describe "create" do
     it "creates a match" do
       json = {:playerOne => "taka",
