@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'rails_12factor'
+gem 'swagger-docs'
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'

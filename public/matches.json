@@ -1,0 +1,45 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://slamapi.herokuapp.com/",
+  "resourcePath": "matches",
+  "apis": [
+    {
+      "path": "matches.json",
+      "operations": [
+        {
+          "summary": "Fetches all User items",
+          "notes": "This lists all the active users",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 416,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "method": "get",
+          "nickname": "Matches#index"
+        }
+      ]
+    }
+  ]
+}

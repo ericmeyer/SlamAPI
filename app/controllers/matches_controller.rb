@@ -1,4 +1,17 @@
 class MatchesController < ApplicationController
+
+  swagger_controller :matches, "Matches"
+
+  swagger_api :index do
+    summary "Fetches all User items"
+    notes "This lists all the active users"
+    param :query, :page, :integer, :optional, "Page number"
+    param :path, :nested_id, :integer, :optional, "Team Id"
+    response :unauthorized
+    response :not_acceptable, "The request you made is not acceptable"
+    response :requested_range_not_satisfiable
+  end
+
   def index
     @matches = SlamAPI::Matches.all
     render 'index.json.jbuilder'
