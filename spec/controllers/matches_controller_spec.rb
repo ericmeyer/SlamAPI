@@ -57,7 +57,6 @@ RSpec.describe MatchesController, type: :controller do
 
       match = SlamAPI::Matches.all.first
 
-      p match
       expect(match.player_one).to eq("taka")
     end
   end
