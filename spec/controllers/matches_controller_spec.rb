@@ -12,7 +12,7 @@ RSpec.describe MatchesController, type: :controller do
     end
 
     it "returns a json response of all the matches" do
-      match = SlamAPI::Matches.new(
+      match = SlamAPI::Match.new(
         :player_one => "taka",
         :player_two => "eric"
       )
@@ -29,7 +29,7 @@ RSpec.describe MatchesController, type: :controller do
 
   describe "destroy" do
     it "destroys a match" do
-      match = SlamAPI::Matches.new(
+      match = SlamAPI::Match.new(
         :player_one => "taka",
         :player_two => "eric"
       )
@@ -40,7 +40,7 @@ RSpec.describe MatchesController, type: :controller do
 
       expect(response.code).to eq("200")
 
-      matches = SlamAPI::Matches.all
+      matches = SlamAPI::Match.all
       expect(matches).to be_empty
     end
   end
@@ -49,13 +49,13 @@ RSpec.describe MatchesController, type: :controller do
     it "creates a match" do
       json = {:playerOne => "taka",
               :playerTwo => "lisa"}
-      request.env['CONTENT_TYPE'] = 'application/json'
+      #request.env['CONTENT_TYPE'] = 'application/json'
 
       post :create, json
 
       expect(response.code).to eq("201")
 
-      match = SlamAPI::Matches.all.first
+      match = SlamAPI::Match.all.first
 
       expect(match.player_one).to eq("taka")
     end

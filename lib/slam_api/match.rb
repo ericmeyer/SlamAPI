@@ -1,5 +1,5 @@
 module SlamAPI
-  class Matches
+  class Match
     class << self
       def all
         matches.values
@@ -37,7 +37,7 @@ module SlamAPI
     def create(on_success = Proc.new { true }, 
                on_fail = Proc.new { true })
       if (valid?)
-        Matches.add(self)
+        Match.add(self)
         on_success.call
       else
         on_fail.call

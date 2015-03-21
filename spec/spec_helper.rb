@@ -1,4 +1,4 @@
-require 'slam_api/matches'
+require 'slam_api/match'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -22,6 +22,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.after(:each) do |config|
-    SlamAPI::Matches.destroy_all
+    SlamAPI::Match.destroy_all
   end
 end

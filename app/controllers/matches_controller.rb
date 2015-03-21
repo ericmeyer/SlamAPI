@@ -13,19 +13,19 @@ class MatchesController < ApplicationController
   end
 
   def index
-    @matches = SlamAPI::Matches.all
+    @matches = SlamAPI::Match.all
     render 'index.json.jbuilder'
   end
 
   def create
-    match = SlamAPI::Matches.new(parsed_params)
+    match = SlamAPI::Match.new(parsed_params)
     on_success = Proc.new { render json: nil, status: 201 }
     on_fail = Proc.new { render json: nil, status: 400 }
     match.create(on_success, on_fail)
   end
 
   def destroy
-    SlamAPI::Matches.destroy_match(parsed_params[:id])
+    SlamAPI::Match.destroy_match(parsed_params[:id])
     render json: nil, status: 200
   end
 
