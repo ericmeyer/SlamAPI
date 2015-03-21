@@ -29,6 +29,23 @@ RSpec.describe SlamAPI::Matches do
     end
   end
 
+  context "#create" do
+    it "returns on_success when valid" do
+      match = SlamAPI::Matches.new(valid_attributes)
+      on_success = proc { true }
+      on_fail = proc { false }
+      expect(match.create(on_success, on_fail)).to be true
+    end
+
+    it "returns on_fail when not valid" do
+      attributes = {}
+      match = SlamAPI::Matches.new(attributes)
+      on_success = proc { false }
+      on_fail = proc { true }
+      expect(match.create(on_success, on_fail)).to be true
+    end
+  end
+
   context "#destroy_match" do
     it "deletes a match" do
       match = SlamAPI::Matches.new(valid_attributes)

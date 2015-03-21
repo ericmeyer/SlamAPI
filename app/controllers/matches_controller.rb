@@ -19,8 +19,9 @@ class MatchesController < ApplicationController
 
   def create
     match = SlamAPI::Matches.new(parsed_params)
-    match.create
-    render json: nil, status: 201
+    on_success = Proc.new { render json: nil, status: 201 }
+    on_fail = Proc.new { render json: nil, status: 400 }
+    match.create(on_success, on_fail)
   end
 
   def destroy

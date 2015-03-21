@@ -34,9 +34,13 @@ module SlamAPI
       @player_two = attributes[:player_two]
     end
 
-    def create
+    def create(on_success = Proc.new { true }, 
+               on_fail = Proc.new { true })
       if (valid?)
         Matches.add(self)
+        on_success.call
+      else
+        on_fail.call
       end
     end
 
