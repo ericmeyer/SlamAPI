@@ -63,13 +63,10 @@ RSpec.describe MatchesController, type: :controller do
         :playerTwo => "lisa"
       }
 
-      puts "SlamAPI::Matches.all.count: #{SlamAPI::Matches.all.count}"
-
       expect {
         post :create, match_params, :format => "json"
       }.to change{SlamAPI::Matches.all.count}.by(1)
 
-      puts "SlamAPI::Matches.all.count: #{SlamAPI::Matches.all.count}"
 
       match = SlamAPI::Matches.all.last
       expect(match.player_one).to eq("taka")
