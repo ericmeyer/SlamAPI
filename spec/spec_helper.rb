@@ -21,7 +21,7 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  config.after(:each) do |config|
+  config.before(:each) do |config|
     SlamAPI::Matches.destroy_all
   end
 end
