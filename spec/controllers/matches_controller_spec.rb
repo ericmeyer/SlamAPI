@@ -46,18 +46,32 @@ RSpec.describe MatchesController, type: :controller do
   end
 
   describe "create" do
-    it "creates a match" do
-      json = {:playerOne => "taka",
-              :playerTwo => "lisa"}
-      request.env['CONTENT_TYPE'] = 'application/json'
+    it "returns a 201 created" do
+      match_params = {
+        :playerOne => "taka",
+        :playerTwo => "lisa"
+      }
 
-      post :create, json
+      post :create, match_params, :format => "json"
 
       expect(response.code).to eq("201")
+    end
 
-      match = SlamAPI::Matches.all.first
+    it "creates a new match" do 
+      match_params = {
+        :playerOne => "taka",
+        :playerTwo => "lisa"
+      }
 
-      p match
+      puts "SlamAPI::Matches.all.count: #{SlamAPI::Matches.all.count}"
+
+      expect {
+        post :create, match_params, :format => "json"
+      }.to change{SlamAPI::Matches.all.count}.by(1)
+
+      puts "SlamAPI::Matches.all.count: #{SlamAPI::Matches.all.count}"
+
+      match = SlamAPI::Matches.all.last
       expect(match.player_one).to eq("taka")
     end
   end
