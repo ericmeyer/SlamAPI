@@ -1,17 +1,21 @@
+require 'slam_api/match'
+require 'slam_api/matches/repository'
+require 'slam_api/memory'
+
 class MatchesController < ApplicationController
   def index
-    @matches = SlamAPI::Matches.all
+    @matches = repository.all
     render 'index.json.jbuilder'
   end
 
   def create
-    match = SlamAPI::Matches.new(parsed_params)
-    match.create
+    match = SlamAPI::Match.new(parsed_params)
+    repository.create(match)
     render json: nil, status: 201
   end
 
   def destroy
-    SlamAPI::Matches.destroy_match(parsed_params[:id])
+    repository.destroy_match(parsed_params[:id])
     render json: nil, status: 200
   end
 
@@ -21,5 +25,15 @@ class MatchesController < ApplicationController
         param[key.to_s.underscore] = param.delete(key)
       end
     end
+  end
+
+  private
+
+  def db
+    @db ||= SlamAPI::Memory.new
+  end
+
+  def repository
+    @match_repository ||= SlamAPI::Matches::Repository.new(db)
   end
 end

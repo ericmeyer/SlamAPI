@@ -11,65 +11,80 @@ RSpec.describe MatchesController, type: :controller do
       expect(response).to have_http_status(200)
     end
 
-    it "returns a json response of all the matches" do
-      match = SlamAPI::Matches.new(
-        :player_one => "taka",
-        :player_two => "eric"
-      )
+   it "returns a json response of all the matches" do
+     match = SlamAPI::Match.new(
+       :player_one => "taka",
+       :player_two => "eric"
+     )
+     db = SlamAPI::Memory.new
+     repository = SlamAPI::Matches::Repository.new(db)
 
-      match.create
+     allow(SlamAPI::Matches::Repository).to receive(:new).and_return(repository)
+     repository.create(match)
 
-      get :index, format: :json
+     get :index, format: :json
 
-      json_response = JSON.parse(response.body)
-      expect(json_response.first["playerOne"]).to eq("taka")
-      expect(json_response.first["playerTwo"]).to eq("eric")
-    end
-  end
+     json_response = JSON.parse(response.body)
+     expect(json_response.first["playerOne"]).to eq("taka")
+     expect(json_response.first["playerTwo"]).to eq("eric")
+   end
+ end
 
-  describe "destroy" do
-    it "destroys a match" do
-      match = SlamAPI::Matches.new(
-        :player_one => "taka",
-        :player_two => "eric"
-      )
+ describe "destroy" do
+   it "destroys a match" do
+     match = SlamAPI::Match.new(
+       :player_one => "taka",
+       :player_two => "eric"
+     )
+     db = SlamAPI::Memory.new
+     repository = SlamAPI::Matches::Repository.new(db)
 
-      match.create
+     allow(SlamAPI::Matches::Repository).to receive(:new).and_return(repository)
 
-      delete :destroy, { :id => match.id }
+     delete :destroy, { :id => match.id }
 
-      expect(response.code).to eq("200")
+     expect(response.code).to eq("200")
 
-      matches = SlamAPI::Matches.all
-      expect(matches).to be_empty
-    end
-  end
+     matches = repository.all
+     expect(matches).to be_empty
+   end
+ end
 
-  describe "create" do
-    it "returns a 201 created" do
-      match_params = {
-        :playerOne => "taka",
-        :playerTwo => "lisa"
-      }
+ describe "create" do
+   it "returns a 201 created" do
+     match_params = {
+       :playerOne => "taka",
+       :playerTwo => "lisa"
+     }
 
-      post :create, match_params, :format => "json"
+     db = SlamAPI::Memory.new
+     repository = SlamAPI::Matches::Repository.new(db)
 
-      expect(response.code).to eq("201")
-    end
+     allow(SlamAPI::Matches::Repository).to receive(:new).and_return(repository)
 
-    it "creates a new match" do 
-      match_params = {
-        :playerOne => "taka",
-        :playerTwo => "lisa"
-      }
+     post :create, match_params, :format => "json"
 
-      expect {
-        post :create, match_params, :format => "json"
-      }.to change{SlamAPI::Matches.all.count}.by(1)
+     expect(response.code).to eq("201")
+   end
+
+   it "creates a new match" do
+     match_params = {
+       :playerOne => "taka",
+       :playerTwo => "lisa"
+     }
+
+     db = SlamAPI::Memory.new
+     repository = SlamAPI::Matches::Repository.new(db)
+
+     allow(SlamAPI::Matches::Repository).to receive(:new).and_return(repository)
+
+     expect {
+       post :create, match_params, :format => "json"
+     }.to change{repository.all.count}.by(1)
 
 
-      match = SlamAPI::Matches.all.last
-      expect(match.player_one).to eq("taka")
-    end
+     match = repository.all.last
+     expect(match.player_one).to eq("taka")
+   end
   end
 end
