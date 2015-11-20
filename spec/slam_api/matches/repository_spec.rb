@@ -1,4 +1,5 @@
 require "slam_api/match"
+require 'slam_api/sql'
 require "slam_api/matches/repository"
 require 'spec_helper'
 
@@ -23,12 +24,18 @@ RSpec.describe SlamAPI::Matches::Repository do
     @repository = SlamAPI::Matches::Repository.new(db)
   end
 
+  after(:each) do
+    @repository.destroy_all
+  end
+
   context ".all" do
     it "retrieves all the matches" do
       match = SlamAPI::Match.new(valid_attributes)
       @repository.create(match)
 
-      expect(@repository.all).to include(match)
+      expect(@repository.all.count).to eq(1)
+      result = @repository.all.find { |_match| _match.id == match.id }
+      expect(result).to_not be_nil
     end
   end
 
@@ -44,7 +51,8 @@ RSpec.describe SlamAPI::Matches::Repository do
       match = SlamAPI::Match.new(valid_attributes)
       @repository.create(match)
 
-      expect(@repository.find_by_id(match.id)).to eq(match)
+      expect(@repository.find_by_id(match.id).id).to eq(match.id)
+      expect(@repository.find_by_id(match.id).player_one).to eq(match.player_one)
     end
   end
 

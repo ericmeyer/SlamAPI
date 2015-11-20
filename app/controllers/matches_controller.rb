@@ -29,10 +29,6 @@ class MatchesController < ApplicationController
 
   private
 
-  def db
-    @db ||= SlamAPI::Memory.new
-  end
-
   def repository
     @match_repository ||= SlamAPI::Matches::Repository.new(db)
   end

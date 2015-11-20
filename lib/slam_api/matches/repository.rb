@@ -10,9 +10,7 @@ module SlamAPI
       end
 
       def create(match)
-        if valid?(match)
-          db.add(match)
-        end
+        db.add(match) if valid?(match)
       end
 
       def destroy_all

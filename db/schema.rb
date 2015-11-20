@@ -15,8 +15,9 @@ ActiveRecord::Schema.define(version: 20151113202135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
-  create_table "matches", force: true do |t|
+  create_table "matches", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string "player_one"
     t.string "player_two"
   end

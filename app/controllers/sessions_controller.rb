@@ -6,5 +6,4 @@ class SessionsController < ApplicationController
       token: "ABC123"
     }
   end
-
 end
