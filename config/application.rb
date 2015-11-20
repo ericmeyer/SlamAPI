@@ -9,5 +9,7 @@ Bundler.require(*Rails.groups)
 module SlamAPI
   class Application < Rails::Application
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    ENV['ENV'] = Rails.env
   end
 end
