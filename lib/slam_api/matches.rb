@@ -24,14 +24,19 @@ module SlamAPI
       def find_by_id(id)
         matches[id]
       end  
+
+      def pending_matches
+        matches.count
+      end
     end
 
-    attr_reader :id, :player_one, :player_two, :completed
+    attr_reader :id, :player_one, :player_two, :created_at
 
     def initialize(attributes)
       @id = SecureRandom.uuid 
       @player_one = attributes[:player_one]
       @player_two = attributes[:player_two]
+      @created_at = Time.now
     end
 
     def create
